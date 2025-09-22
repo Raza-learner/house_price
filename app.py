@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import pandas as pd
 import joblib
 import numpy as np
+import os
 
 app = FastAPI(title="House Price Prediction API")
 
@@ -22,7 +23,9 @@ class HouseFeatures(BaseModel):
     furnishingstatus: str
 
 # Load the pre-trained model
-model = joblib.load('model.pkl')
+# Use absolute path to ensure model.pkl is found
+model_path = os.path.join(os.path.dirname(__file__), '../model.pkl')
+model = joblib.load(model_path)
 
 @app.post("/predict")
 async def predict_price(features: HouseFeatures):
@@ -54,7 +57,7 @@ async def predict_price(features: HouseFeatures):
         # Predict
         prediction = model.predict(df)[0]
         
-        return {"predicted_price": round(prediction)}
+        return {"predicted_price": round(float(prediction))}
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error processing input: {str(e)}")
 
