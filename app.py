@@ -27,7 +27,7 @@ class HouseFeatures(BaseModel):
 model_path = os.path.join(os.path.dirname(__file__), '../model.pkl')
 model = joblib.load(model_path)
 
-@app.post("/predict")
+@app.get("/predict")
 async def predict_price(features: HouseFeatures):
     try:
         # Convert input to DataFrame
