@@ -24,7 +24,7 @@ class HouseFeatures(BaseModel):
 
 # Load the pre-trained model
 # Use absolute path to ensure model.pkl is found
-model_path = os.path.join(os.path.dirname(__file__), '../model.pkl')
+model_path = os.path.join(os.path.dirname(__file__), 'model.pkl')
 model = joblib.load(model_path)
 
 @app.get("/predict")
